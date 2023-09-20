@@ -1,51 +1,29 @@
-const button = document.querySelector("input");
-const paragraph = document.querySelector("p");
+const MIN_NUMBER = 1;
+const MAX_NUMBER = 100;
+    
+const randomNumber = 
+  Math.floor(Math.random() * (MAX_NUMBER - MIN_NUMBER + 1)) + MIN_NUMBER;
+    
+const output = document.getElementById("output");
+const button = document.getElementById("guessMyNumber");
 
 button.addEventListener("click", updateButton);
 
-function updateButton() {
-  if (button.value === "Start machine") {
-    button.value = "Stop machine";
-    paragraph.textContent = "The machine has started!";
-  } else {
-    button.value = "Start machine";
-    paragraph.textContent = "The machine is stopped.";
-  }
-}
+  function updateButton(){ 
+    const guess = parseInt(document.getElementById("inputNumber").value);
+    const li = document.createElement("li");
 
-const MAX_NUMBER = 100;
-const MIN_NUMBER = 1;
-
-let isPlaying = true;
-let numPlays = 0;
-let totalGuesses = 0;
-let correctGuesses = 0;
-let incorrectGuesses = 0;
-
-async function playGame() {
-  const randomNumber = Math.floor(Math.random() * (MAX_NUMBER - MIN_NUMBER + 1)) + MIN_NUMBER;
-  console.log (`${DICTIONARY.guessANumber}`);
-
-  while (isPlaying) {
-    const answer = await rl.question(DICTIONARY.yourGuess);
-    const number = parseInt(answer);
-
-    if (isNaN(number) || number < MIN_NUMBER || number > MAX_NUMBER) {
-      console.log(`${DICTIONARY.invalidInput}`); 
+  if (isNaN(guess)) {
+    li.innerHTML = "Enter a number";
+  } else if (guess === randomNumber) {
+      li.innerHTML = `Your guess was ${guess}, you guessed correctly!`; 
+      button.disabled = true;
+      playAgain.disabled = false;
+    } else if (guess < randomNumber) {
+      li.innerHTML = `Your guess was ${guess}, you guessed too low!`;  
     } else {
-      totalGuesses++;
-
-      if (number === randomNumber) {
-        console.log(`${DICTIONARY.youGuessedIt}`); 
-        correctGuesses++;
-        isPlaying = false;
-      } else if (number < randomNumber) {
-        console.log(`${DICTIONARY.tooLow}`);  
-        incorrectGuesses++;
-      } else {
-        console.log(`${DICTIONARY.tooHigh}`);  
-        incorrectGuesses++;
-      }
+      li.innerHTML = `Your guess was ${guess}, you guessed too high!`;  
     }
-  }
+
+    output.appendChild(li);
   }
